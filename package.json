@@ -1,0 +1,30 @@
+{
+  "name": "book-explorer-capstone",
+  "version": "1.0.0",
+  "description": "Frontend Phase 1 Capstone: a responsive, interactive Book Explorer built with HTML, Tailwind CSS, JavaScript modules, and the Open Library API.",
+  "main": "index.js",
+  
+"scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview"
+},
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Keniaumwali/book-explorer-capstone.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Keniaumwali/book-explorer-capstone/issues"
+  },
+  "homepage": "https://github.com/Keniaumwali/book-explorer-capstone#readme",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.5"
+  }
+}
