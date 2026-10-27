@@ -223,4 +223,102 @@ app.innerHTML = `
   </main>
 `;
 
-console.log('Explore world of stories. is ready!');
+
+const favoritesList = document.querySelector('#favorites-list');
+
+// Display saved books in the Favorites section
+function renderFavorites() {
+  const favorites = getFavorites();
+
+  if (favorites.length === 0) {
+    favoritesList.innerHTML = `
+      <p class="text-stone-500">
+        You haven't added any favorite books yet.
+      </p>
+    `;
+    return;
+  }
+
+  favoritesList.innerHTML = favorites.map((book) => `
+    <article class="overflow-hidden rounded-2xl border border-rose-100 bg-white shadow-sm">
+      <img
+        src="${book.cover}"
+        alt="${book.title} book cover"
+        class="h-64 w-full bg-rose-100 object-contain p-4"
+      />
+      <div class="p-5">
+        <p class="text-xs font-semibold uppercase tracking-wider text-amber-700">
+          ${book.category}
+        </p>
+        <h3 class="mt-2 text-lg font-bold text-rose-950">${book.title}</h3>
+        <p class="mt-1 text-sm text-stone-500">${book.author}</p>
+        <button
+          type="button"
+          class="remove-favorite mt-4 rounded-full border border-rose-200 px-4 py-2 text-sm text-rose-800 hover:bg-rose-50"
+          data-title="${book.title}"
+        >
+          Remove Favorite
+        </button>
+      </div>
+    </article>
+  `).join('');
+}
+
+// Show the current favorites when the page loads
+renderFavorites();
+
+const bookCards = document.querySelectorAll('.book-card');
+
+function updateFavoriteButtons() {
+  const favorites = getFavorites();
+
+  bookCards.forEach((card) => {
+    const favoriteButton = card.querySelector('.favorite-button');
+    const isFavorite = favorites.some(
+      (book) => book.title === card.dataset.title
+    );
+
+    favoriteButton.textContent = isFavorite
+      ? 'Added to Favorites'
+      : 'Add to Favorite';
+  });
+}
+
+bookCards.forEach((card) => {
+  const favoriteButton = card.querySelector('.favorite-button');
+
+  favoriteButton.addEventListener('click', () => {
+    const book = {
+      title: card.dataset.title,
+      author: card.dataset.author,
+      cover: card.dataset.cover,
+      category: card.dataset.category,
+    };
+
+    const favorites = getFavorites();
+    const isFavorite = favorites.some(
+      (favorite) => favorite.title === book.title
+    );
+
+    if (isFavorite) {
+      removeFavorite(book.title);
+    } else {
+      addFavorite(book);
+    }
+
+    renderFavorites();
+    updateFavoriteButtons();
+  });
+});
+
+favoritesList.addEventListener('click', (event) => {
+  const removeButton = event.target.closest('.remove-favorite');
+
+  if (!removeButton) return;
+
+  removeFavorite(removeButton.dataset.title);
+  renderFavorites();
+  updateFavoriteButtons();
+});
+
+updateFavoriteButtons();
